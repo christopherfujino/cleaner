@@ -12,7 +12,7 @@ fs::path _normalize(const char *raw) {
   fs::path script = fs::canonical(fs::path(raw));
 
 #ifndef __cpp_guaranteed_copy_elision
-  #error "no __cpp_guaranteed_copy_elision present"
+#error "no __cpp_guaranteed_copy_elision present"
 #endif
   // TODO __cpp_implicit_move once 2023
 
