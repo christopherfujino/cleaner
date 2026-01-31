@@ -1,6 +1,7 @@
 module;
 
 #include <filesystem>
+#include <vector>
 
 export module Utils;
 
@@ -8,24 +9,23 @@ namespace fs = std::filesystem;
 
 namespace __chris_monorepo__cpp__cleaner {
 
-fs::path _normalize(const char *raw) {
-  fs::path script = fs::canonical(fs::path(raw));
+export struct Config {
+  fs::path scriptDir;
+};
 
-#ifndef __cpp_guaranteed_copy_elision
-#error "no __cpp_guaranteed_copy_elision present"
-#endif
-  // TODO __cpp_implicit_move once 2023
-
-  return script.parent_path();
+export Config init(int, char **argv) {
+  fs::path scriptDir = fs::canonical(fs::path(argv[0])).parent_path();
+  return {
+      .scriptDir = scriptDir,
+  };
 }
 
-export void init(int argc, char **argv) {
-  auto scriptDir = _normalize(argv[0]);
-  printf("scriptDir = %s\n", scriptDir.c_str());
+export std::vector<fs::path> tree_walk(fs::path root) {
+  std::vector<fs::path> paths = {};
 
-  for (int i = 1; i < argc; i++) {
-    printf("[%d] %s\n", i, argv[i]);
-  }
+  fs::directory_entry current = fs::directory_entry(root);
+
+  return paths;
 }
 
 } // namespace __chris_monorepo__cpp__cleaner
